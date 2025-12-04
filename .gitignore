@@ -1,1 +1,3 @@
-./contact-api/node_modules/
+contact-api/node_modules/
+contact-api/dist/
+contact-api/.env
