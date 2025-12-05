@@ -1,5 +1,7 @@
 import { Routes } from "@angular/router";
 
+import { ContactListComponent } from "./components/contact-list/contact-list.component";
+
 export const routes: Routes = [
   {
     path: '',
@@ -8,9 +10,6 @@ export const routes: Routes = [
   },
   {
     path: 'contacts',
-    loadComponent: () =>
-      import('./components/contact-list/contact-list.component').then(
-        (m) => m.ContactListComponent
-      ),
+    component: ContactListComponent,
   },
 ];

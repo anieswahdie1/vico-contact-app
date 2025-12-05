@@ -1,7 +1,7 @@
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from "rxjs";
 
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { ContactFormComponent } from "../contact-form/contact-form.component";
@@ -25,7 +25,6 @@ export class ContactListComponent implements OnInit, OnDestroy {
   error: string | null = null;
   searchTerm = '';
 
-  // Pagination
   currentPage = 1;
   itemsPerPage = 5;
   totalItems = 0;
@@ -33,12 +32,15 @@ export class ContactListComponent implements OnInit, OnDestroy {
   private searchSubject = new Subject<string>();
   private subscriptions: Subscription[] = [];
 
-  constructor(private contactService: ContactService) {}
+  constructor(
+    private contactService: ContactService,
+    private cdr: ChangeDetectorRef // Tambahkan ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    console.log('ContactListComponent initialized');
     this.loadContacts();
 
-    // Setup search with debounce
     const searchSubscription = this.searchSubject
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((searchTerm) => {
@@ -53,20 +55,33 @@ export class ContactListComponent implements OnInit, OnDestroy {
   }
 
   loadContacts(): void {
+    console.log('Loading contacts...');
     this.isLoading = true;
     this.error = null;
 
     const subscription = this.contactService.getContacts().subscribe({
       next: (response) => {
+        console.log('Contacts loaded:', response.data.length);
+        console.log('Number of contacts:', response.data.length);
+
         this.contacts = response.data;
         this.filteredContacts = [...this.contacts];
         this.totalItems = this.contacts.length;
         this.isLoading = false;
+
+        console.log('Contacts array:', this.contacts);
+        console.log('isLoading set to:', this.isLoading);
+
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error loading contacts:', error);
         this.error = 'Gagal memuat data kontak. Silakan coba lagi.';
         this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      complete: () => {
+        console.log('Request completed');
       },
     });
 
@@ -96,7 +111,6 @@ export class ContactListComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error searching contacts:', error);
-        // Fallback to client-side search if API fails
         this.filteredContacts = this.contacts.filter(
           (contact) =>
             contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -154,7 +168,6 @@ export class ContactListComponent implements OnInit, OnDestroy {
           this.contacts = this.contacts.filter((c) => c._id !== id);
           this.filteredContacts = this.filteredContacts.filter((c) => c._id !== id);
           this.totalItems = this.filteredContacts.length;
-          // Adjust page if current page becomes empty
           if (this.paginatedContacts.length === 0 && this.currentPage > 1) {
             this.currentPage--;
           }
