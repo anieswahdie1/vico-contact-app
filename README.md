@@ -94,49 +94,96 @@ ng serve
 
 Frontend akan berjalan di: http://localhost:4200
 
-Daftar Endpoint API
+## Daftar Endpoint API
+
 Base URL: http://localhost:3000
 
 1. Get All Contacts
-   Method: GET
 
-URL: /contacts
-
-Response:
-{
-"success": true,
-"message": "Daftar kontak berhasil diambil",
-"data": [
-{
-"_id": "6931e2b74471a31f8e5d9aad",
-"name": "Amien Ridlo",
-"phone": "0896673508360",
-"email": "ridlo@gmail.com",
-"createdAt": "2025-12-04T19:36:23.639Z",
-"updatedAt": "2025-12-04T19:36:23.639Z",
-"__v": 0
-}
-]
-}
+   - Method: GET
+   - URL: /contacts
+   - Response:
+     {
+     "success": true,
+     "message": "Daftar kontak berhasil diambil",
+     "data": {}
+     }
 
 2. Get Contact By ID
-   Method: GET
 
-URL: /contacts/:id
+   - Method: GET
+   - URL: /contacts/:id
+   - Parameters: id (ObjectId MongoDB)
+   - Response:
+     {
+     "success": true,
+     "message": "Kontak berhasil ditemukan",
+     "data": {}
+     }
 
-Parameters: id (ObjectId MongoDB)
+3. Create Contact
 
-Response:
-{
-"success": true,
-"message": "Kontak berhasil ditemukan",
-"data": {
-"\_id": "6931e2b74471a31f8e5d9aad",
-"name": "Amien Ridlo",
-"phone": "0896673508360",
-"email": "ridlo@gmail.com",
-"createdAt": "2025-12-04T19:36:23.639Z",
-"updatedAt": "2025-12-04T19:36:23.639Z",
-"\_\_v": 0
-}
-}
+- Method: POST
+- URL: /contacts
+- Body:
+  {
+  "name": "Amien Ridlo",
+  "email": "ridlo@gmail.com",
+  "phone": "0896673508360"
+  }
+
+4. Update Contact
+
+- Method: PATCH
+- URL: /contacts/:id
+- Body:
+  {
+  "name": "Amien Ridlo Edit",
+  "email": "ridlo-edit@gmail.com",
+  "phone": "0896673508360"
+  }
+
+5. Delete Contact
+
+- Method: DELETE
+- URL: /contacts/:id
+- Parameters: id (ObjectId MongoDB)
+- Response:
+  {
+  "success": true,
+  "message": "Kontak berhasil dihapus",
+  "data": null
+  }
+
+6. Search Contact
+
+- Method: GET
+- URL: /contacts/search?q=ridlo
+- Query Parameters: q (search query)
+- Response:
+  {
+  "success": true,
+  "message": "Hasil pencarian berhasil diambil",
+  "data": [
+  {
+  "_id": "6931e2b74471a31f8e5d9aad",
+  "name": "Amien Ridlo",
+  "phone": "0896673508360",
+  "email": "ridlo@gmail.com",
+  "createdAt": "2025-12-04T19:36:23.639Z",
+  "updatedAt": "2025-12-04T19:36:23.639Z",
+  "__v": 0
+  }
+  ]
+  }
+
+## Cara Jalankan Unit Test
+
+cd contact-api
+
+npm test
+
+atau
+
+jalankan dengan watch mode
+npm run test:watch
