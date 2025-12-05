@@ -4,19 +4,25 @@ Aplikasi sederhana untuk CRUD contacts
 
 Aplikasi Contact Management sederhana untuk mengelola daftar kontak dengan fitur CRUD lengkap, built dengan Angular 21 (Frontend) dan NestJS + MongoDB (Backend).
 
-## Fitur Utama
+# Fitur Utama
 
 ✅ CRUD Lengkap - Create, Read, Update, Delete kontak
+
 ✅ Validasi Form - Validasi real-time untuk nama, email, dan telepon
+
 ✅ Pencarian - Cari kontak berdasarkan nama atau nomor telepon
+
 ✅ Pagination - Navigasi halaman yang user-friendly
+
 ✅ UI Responsif - Tampilan optimal di desktop dan mobile
+
 ✅ Database MongoDB - Penyimpanan data yang scalable
+
 ✅ REST API - API endpoints yang lengkap
 
-## Cara Menjalankan Aplikasi
+# Cara Menjalankan Aplikasi
 
-Prerequisites
+## Prerequisites
 
 - Node.js 18+ dan npm
 - MongoDB Community Edition
@@ -30,9 +36,11 @@ Prerequisites
 2. Setup Backend
    cd contact-api
 
+```
 npm install
+```
 
-# Konfiguransi .env dengan data sbb:
+## Konfiguransi .env dengan data sbb:
 
 ```env
 MONGODB_URI=mongodb://localhost:27017/contact_app
@@ -40,46 +48,52 @@ PORT=3000
 NODE_ENV=development
 ```
 
-# Jalankan MongoDB
+## Jalankan MongoDB
 
-## Untuk macOS (Homebrew)
+### Untuk macOS (Homebrew)
 
 ```
 brew services start mongodb-community
 ```
 
-## Untuk Linux (Ubuntu/Debian)
+### Untuk Linux (Ubuntu/Debian)
 
 ```
 sudo systemctl start mongod
 ```
 
-## Untuk Windows
+### Untuk Windows
 
 Jalankan MongoDB Compass atau MongoDB sebagai service
 
-# Development mode (auto-reload)
+## Development mode (auto-reload)
 
 npm run start:dev
 
-# Atau production mode
+## Atau production mode
 
 npm run start:prod
 
 3. Setup Frontend
 
-# Masuk ke folder fe
+Masuk ke folder fe
 
+```
 cd contact-ui
+```
 
-# Install Dependencies
+Install Dependencies
 
+```
 npm install
+```
 
-# Install Tailwind CSS:
+Install Tailwind CSS:
 
+```code
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
+```
 
 # Edit tailwind.config.js
 
