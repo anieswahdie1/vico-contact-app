@@ -1,3 +1,5 @@
+import { Subscription } from "rxjs";
+
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -14,11 +16,14 @@ import { Contact } from "../models/contact.model";
 export class ContactFormComponent implements OnInit {
   @Input() contact: Contact | null = null;
   @Input() isEditMode = false;
-  @Output() submitForm = new EventEmitter<Contact>();
+  @Output() submitForm = new EventEmitter<{ contact: Contact; callback: () => void }>();
   @Output() cancel = new EventEmitter<void>();
+  @Output() success = new EventEmitter<void>();
 
   contactForm: FormGroup;
   isSubmitting = false;
+
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
@@ -34,6 +39,10 @@ export class ContactFormComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   get name() {
     return this.contactForm.get('name');
   }
@@ -47,7 +56,14 @@ export class ContactFormComponent implements OnInit {
   onSubmit(): void {
     if (this.contactForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
-      this.submitForm.emit(this.contactForm.value);
+
+      this.submitForm.emit({
+        contact: this.contactForm.value,
+        callback: () => {
+          // Callback ini akan dipanggil oleh parent setelah sukses
+          this.resetFormState();
+        },
+      });
     } else {
       Object.keys(this.contactForm.controls).forEach((key) => {
         const control = this.contactForm.get(key);
@@ -58,6 +74,21 @@ export class ContactFormComponent implements OnInit {
 
   onCancel(): void {
     this.cancel.emit();
+  }
+
+  resetFormState(): void {
+    this.isSubmitting = false;
+
+    if (!this.isEditMode) {
+      // Jika add mode, reset form
+      this.contactForm.reset();
+      Object.keys(this.contactForm.controls).forEach((key) => {
+        const control = this.contactForm.get(key);
+        control?.setErrors(null);
+        control?.markAsPristine();
+        control?.markAsUntouched();
+      });
+    }
   }
 
   resetForm(): void {

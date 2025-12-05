@@ -32,10 +32,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
   private searchSubject = new Subject<string>();
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private contactService: ContactService,
-    private cdr: ChangeDetectorRef // Tambahkan ChangeDetectorRef
-  ) {}
+  constructor(private contactService: ContactService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     console.log('ContactListComponent initialized');
@@ -204,35 +201,60 @@ export class ContactListComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleFormSubmit(contact: Contact): void {
+  handleFormSubmit(event: { contact: Contact; callback: () => void }): void {
     if (this.isEditMode && this.selectedContact?._id) {
-      this.updateContact(this.selectedContact._id, contact);
+      this.updateContact(this.selectedContact._id, event.contact, event.callback);
     } else {
-      this.createContact(contact);
+      this.createContact(event.contact, event.callback);
     }
   }
 
-  createContact(contact: Contact): void {
+  createContact(contact: Contact, callback: () => void): void {
     const subscription = this.contactService.createContact(contact).subscribe({
       next: (response) => {
+        console.log('Create successful:', response);
+
+        // Tambahkan ke array
         this.contacts.unshift(response.data);
         this.filteredContacts.unshift(response.data);
         this.totalItems = this.filteredContacts.length;
+
+        // Reset form state melalui callback
+        callback();
+
+        // Sembunyikan form
         this.isFormVisible = false;
-        alert('Kontak berhasil ditambahkan!');
+
+        // Force UI update
+        this.cdr.detectChanges();
+
+        // Show success message
+        this.showToast('Kontak berhasil ditambahkan!', 'success');
+
+        // Reset pagination ke halaman 1
+        this.currentPage = 1;
+
+        console.log('After create - contacts:', this.contacts.length);
       },
       error: (error) => {
         console.error('Error creating contact:', error);
-        alert('Gagal menambahkan kontak. Silakan coba lagi.');
+
+        // Reset form state (supaya button tidak stuck)
+        callback();
+
+        // Show error message
+        this.showToast('Gagal menambahkan kontak. Silakan coba lagi.', 'error');
       },
     });
 
     this.subscriptions.push(subscription);
   }
 
-  updateContact(id: string, contact: Contact): void {
+  updateContact(id: string, contact: Contact, callback: () => void): void {
     const subscription = this.contactService.updateContact(id, contact).subscribe({
       next: (response) => {
+        console.log('Update successful:', response);
+
         const index = this.contacts.findIndex((c) => c._id === id);
         if (index !== -1) {
           this.contacts[index] = response.data;
@@ -243,13 +265,21 @@ export class ContactListComponent implements OnInit, OnDestroy {
           this.filteredContacts[filteredIndex] = response.data;
         }
 
+        callback();
+
         this.isFormVisible = false;
         this.selectedContact = null;
-        alert('Kontak berhasil diperbarui!');
+
+        this.cdr.detectChanges();
+
+        this.showToast('Kontak berhasil diperbarui!', 'success');
       },
       error: (error) => {
         console.error('Error updating contact:', error);
-        alert('Gagal memperbarui kontak. Silakan coba lagi.');
+
+        callback();
+
+        this.showToast('Gagal memperbarui kontak. Silakan coba lagi.', 'error');
       },
     });
 
@@ -270,14 +300,23 @@ export class ContactListComponent implements OnInit, OnDestroy {
   }
 
   private showToast(message: string, type: 'success' | 'error' | 'info' = 'info'): void {
+    // Buat elemen toast
     const toast = document.createElement('div');
-    toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg text-white transform transition-all duration-300 ${
+    toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg text-white transform transition-all duration-300 translate-x-full opacity-0 ${
       type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'
     }`;
     toast.textContent = message;
 
+    // Tambahkan ke body
     document.body.appendChild(toast);
 
+    // Trigger animation
+    setTimeout(() => {
+      toast.classList.remove('translate-x-full', 'opacity-0');
+      toast.classList.add('translate-x-0', 'opacity-100');
+    }, 10);
+
+    // Auto remove setelah 3 detik
     setTimeout(() => {
       toast.classList.add('opacity-0', 'translate-x-full');
       setTimeout(() => {
