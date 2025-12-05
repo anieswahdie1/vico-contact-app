@@ -95,8 +95,9 @@ npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
 ```
 
-# Edit tailwind.config.js
+### Edit tailwind.config.js
 
+```
 /** @type {import('tailwindcss').Config} \*/
 module.exports = {
 content: [
@@ -107,12 +108,13 @@ extend: {},
 },
 plugins: [],
 }
+```
 
 ## Jalankan Frontend
 
-ng serve
+`ng serve`
 
-Frontend akan berjalan di: http://localhost:4200
+Frontend akan berjalan di: `http://localhost:4200`
 
 # Daftar Endpoint API
 
@@ -216,10 +218,16 @@ Base URL:
 
 cd contact-api
 
-npm test
+`npm test`
 
 atau
 
 jalankan dengan watch mode
 
-npm run test:watch
+`npm run test:watch`
+
+atau
+
+jalankan dengan coverage
+
+`ng test --code-coverage`
