@@ -34,9 +34,11 @@ npm install
 
 # Konfiguransi .env dengan data sbb:
 
+```env
 MONGODB_URI=mongodb://localhost:27017/contact_app
 PORT=3000
 NODE_ENV=development
+```
 
 ## jalankan MongoDB
 
