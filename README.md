@@ -114,20 +114,23 @@ ng serve
 
 Frontend akan berjalan di: http://localhost:4200
 
-## Daftar Endpoint API
+# Daftar Endpoint API
 
-Base URL: http://localhost:3000
+Base URL:
+`http://localhost:3000`
 
 1. Get All Contacts
 
    - Method: GET
    - URL: /contacts
    - Response:
+     ```
      {
      "success": true,
      "message": "Daftar kontak berhasil diambil",
      "data": {}
      }
+     ```
 
 2. Get Contact By ID
 
@@ -135,33 +138,39 @@ Base URL: http://localhost:3000
    - URL: /contacts/:id
    - Parameters: id (ObjectId MongoDB)
    - Response:
+     ```
      {
      "success": true,
      "message": "Kontak berhasil ditemukan",
      "data": {}
      }
+     ```
 
 3. Create Contact
 
 - Method: POST
 - URL: /contacts
 - Body:
+  ```
   {
   "name": "Amien Ridlo",
   "email": "ridlo@gmail.com",
   "phone": "0896673508360"
   }
+  ```
 
 4. Update Contact
 
 - Method: PATCH
 - URL: /contacts/:id
 - Body:
+  ```
   {
   "name": "Amien Ridlo Edit",
   "email": "ridlo-edit@gmail.com",
   "phone": "0896673508360"
   }
+  ```
 
 5. Delete Contact
 
@@ -169,11 +178,14 @@ Base URL: http://localhost:3000
 - URL: /contacts/:id
 - Parameters: id (ObjectId MongoDB)
 - Response:
-  {
+
+```
+{
   "success": true,
   "message": "Kontak berhasil dihapus",
   "data": null
   }
+```
 
 6. Search Contact
 
@@ -181,6 +193,8 @@ Base URL: http://localhost:3000
 - URL: /contacts/search?q=ridlo
 - Query Parameters: q (search query)
 - Response:
+
+```
   {
   "success": true,
   "message": "Hasil pencarian berhasil diambil",
@@ -196,8 +210,9 @@ Base URL: http://localhost:3000
   }
   ]
   }
+```
 
-## Cara Jalankan Unit Test
+# Cara Jalankan Unit Test
 
 cd contact-api
 
@@ -206,4 +221,5 @@ npm test
 atau
 
 jalankan dengan watch mode
+
 npm run test:watch
