@@ -33,7 +33,10 @@ Aplikasi Contact Management sederhana untuk mengelola daftar kontak dengan fitur
 - Git
 
 1. Clone Repo
-   `git clone https://github.com/anieswahdie1/vico-contact-app.git`
+
+   ```json
+   git clone https://github.com/anieswahdie1/vico-contact-app.git
+   ```
 
    cd vico-contact-app
 
