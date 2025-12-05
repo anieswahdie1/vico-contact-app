@@ -3,3 +3,7 @@ contact-api/dist/
 contact-api/.env
 
 contact-ui/node_modules/
+
+contact-ui/dist/
+contact-ui/build/
+contact-ui/out/
