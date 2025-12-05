@@ -163,18 +163,40 @@ export class ContactListComponent implements OnInit, OnDestroy {
 
   deleteContact(id: string): void {
     if (confirm('Apakah Anda yakin ingin menghapus kontak ini?')) {
+      const deleteButton = event?.target as HTMLElement;
+      const originalText = deleteButton.innerHTML;
+      deleteButton.innerHTML = '<span class="animate-spin">⏳</span> Menghapus...';
+      deleteButton.setAttribute('disabled', 'true');
+
       const subscription = this.contactService.deleteContact(id).subscribe({
-        next: () => {
+        next: (response) => {
+          console.log('Delete successful:', response);
+
           this.contacts = this.contacts.filter((c) => c._id !== id);
           this.filteredContacts = this.filteredContacts.filter((c) => c._id !== id);
+
           this.totalItems = this.filteredContacts.length;
+
           if (this.paginatedContacts.length === 0 && this.currentPage > 1) {
             this.currentPage--;
           }
+
+          this.cdr.detectChanges();
+
+          this.showToast('Kontak berhasil dihapus!', 'success');
+
+          console.log('After delete - contacts:', this.contacts.length);
         },
         error: (error) => {
           console.error('Error deleting contact:', error);
-          alert('Gagal menghapus kontak. Silakan coba lagi.');
+
+          deleteButton.innerHTML = originalText;
+          deleteButton.removeAttribute('disabled');
+          this.showToast('Gagal menghapus kontak. Silakan coba lagi.', 'error');
+        },
+        complete: () => {
+          deleteButton.innerHTML = originalText;
+          deleteButton.removeAttribute('disabled');
         },
       });
 
@@ -245,5 +267,24 @@ export class ContactListComponent implements OnInit, OnDestroy {
       month: 'short',
       year: 'numeric',
     });
+  }
+
+  private showToast(message: string, type: 'success' | 'error' | 'info' = 'info'): void {
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg text-white transform transition-all duration-300 ${
+      type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+    }`;
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-x-full');
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+      }, 300);
+    }, 3000);
   }
 }
