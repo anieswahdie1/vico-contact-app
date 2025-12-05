@@ -25,12 +25,16 @@ Aplikasi Contact Management sederhana untuk mengelola daftar kontak dengan fitur
 ## Prerequisites
 
 - Node.js 18+ dan npm
+
 - MongoDB Community Edition
+
 - Angular CLI 21+
+
 - Git
 
 1. Clone Repo
-   git clone https://github.com/anieswahdie1/vico-contact-app.git
+   `git clone https://github.com/anieswahdie1/vico-contact-app.git`
+
    cd vico-contact-app
 
 2. Setup Backend
@@ -97,7 +101,7 @@ npx tailwindcss init
 
 ### Edit tailwind.config.js
 
-```
+```json
 /** @type {import('tailwindcss').Config} \*/
 module.exports = {
 content: [
@@ -126,11 +130,11 @@ Base URL:
    - Method: GET
    - URL: /contacts
    - Response:
-     ```
+     ```json
      {
-     "success": true,
-     "message": "Daftar kontak berhasil diambil",
-     "data": {}
+       "success": true,
+       "message": "Daftar kontak berhasil diambil",
+       "data": {}
      }
      ```
 
@@ -140,11 +144,11 @@ Base URL:
    - URL: /contacts/:id
    - Parameters: id (ObjectId MongoDB)
    - Response:
-     ```
+     ```json
      {
-     "success": true,
-     "message": "Kontak berhasil ditemukan",
-     "data": {}
+       "success": true,
+       "message": "Kontak berhasil ditemukan",
+       "data": {}
      }
      ```
 
@@ -153,11 +157,11 @@ Base URL:
 - Method: POST
 - URL: /contacts
 - Body:
-  ```
+  ```json
   {
-  "name": "Amien Ridlo",
-  "email": "ridlo@gmail.com",
-  "phone": "0896673508360"
+    "name": "Amien Ridlo",
+    "email": "ridlo@gmail.com",
+    "phone": "0896673508360"
   }
   ```
 
@@ -166,11 +170,11 @@ Base URL:
 - Method: PATCH
 - URL: /contacts/:id
 - Body:
-  ```
+  ```json
   {
-  "name": "Amien Ridlo Edit",
-  "email": "ridlo-edit@gmail.com",
-  "phone": "0896673508360"
+    "name": "Amien Ridlo Edit",
+    "email": "ridlo-edit@gmail.com",
+    "phone": "0896673508360"
   }
   ```
 
@@ -181,12 +185,12 @@ Base URL:
 - Parameters: id (ObjectId MongoDB)
 - Response:
 
-```
+```json
 {
   "success": true,
   "message": "Kontak berhasil dihapus",
   "data": null
-  }
+}
 ```
 
 6. Search Contact
@@ -196,22 +200,22 @@ Base URL:
 - Query Parameters: q (search query)
 - Response:
 
-```
-  {
+```json
+{
   "success": true,
   "message": "Hasil pencarian berhasil diambil",
   "data": [
-  {
-  "_id": "6931e2b74471a31f8e5d9aad",
-  "name": "Amien Ridlo",
-  "phone": "0896673508360",
-  "email": "ridlo@gmail.com",
-  "createdAt": "2025-12-04T19:36:23.639Z",
-  "updatedAt": "2025-12-04T19:36:23.639Z",
-  "__v": 0
-  }
+    {
+      "_id": "6931e2b74471a31f8e5d9aad",
+      "name": "Amien Ridlo",
+      "phone": "0896673508360",
+      "email": "ridlo@gmail.com",
+      "createdAt": "2025-12-04T19:36:23.639Z",
+      "updatedAt": "2025-12-04T19:36:23.639Z",
+      "__v": 0
+    }
   ]
-  }
+}
 ```
 
 # Cara Jalankan Unit Test
