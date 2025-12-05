@@ -300,23 +300,19 @@ export class ContactListComponent implements OnInit, OnDestroy {
   }
 
   private showToast(message: string, type: 'success' | 'error' | 'info' = 'info'): void {
-    // Buat elemen toast
     const toast = document.createElement('div');
     toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg text-white transform transition-all duration-300 translate-x-full opacity-0 ${
       type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'
     }`;
     toast.textContent = message;
 
-    // Tambahkan ke body
     document.body.appendChild(toast);
 
-    // Trigger animation
     setTimeout(() => {
       toast.classList.remove('translate-x-full', 'opacity-0');
       toast.classList.add('translate-x-0', 'opacity-100');
     }, 10);
 
-    // Auto remove setelah 3 detik
     setTimeout(() => {
       toast.classList.add('opacity-0', 'translate-x-full');
       setTimeout(() => {
