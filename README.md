@@ -48,13 +48,15 @@ NODE_ENV=development
 brew services start mongodb-community
 ```
 
-# Untuk Linux (Ubuntu/Debian)
+## Untuk Linux (Ubuntu/Debian)
 
+```
 sudo systemctl start mongod
+```
 
-# Untuk Windows
+## Untuk Windows
 
-# Jalankan MongoDB Compass atau MongoDB sebagai service
+Jalankan MongoDB Compass atau MongoDB sebagai service
 
 # Development mode (auto-reload)
 
