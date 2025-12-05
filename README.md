@@ -40,11 +40,13 @@ PORT=3000
 NODE_ENV=development
 ```
 
-## jalankan MongoDB
+# Jalankan MongoDB
 
-# Untuk macOS (Homebrew)
+## Untuk macOS (Homebrew)
 
+```
 brew services start mongodb-community
+```
 
 # Untuk Linux (Ubuntu/Debian)
 
