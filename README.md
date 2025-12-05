@@ -34,14 +34,19 @@ Aplikasi Contact Management sederhana untuk mengelola daftar kontak dengan fitur
 
 1. Clone Repo
 
-   ```json
+   ```
    git clone https://github.com/anieswahdie1/vico-contact-app.git
    ```
+
+   Masuk ke folder repo
 
    cd vico-contact-app
 
 2. Setup Backend
-   cd contact-api
+
+cd contact-api
+
+lalu
 
 ```
 npm install
@@ -104,7 +109,7 @@ npx tailwindcss init
 
 ### Edit tailwind.config.js
 
-```json
+```
 /** @type {import('tailwindcss').Config} \*/
 module.exports = {
 content: [
